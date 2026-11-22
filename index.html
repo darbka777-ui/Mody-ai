@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111322">
+  <title>AI World | مساعدك الذكي</title>
+  <style>
+@import url('https://fonts.googles.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+:root{--bg:#0d1020;--panel:#151a2d;--panel2:#1c2238;--text:#f4f5fb;--muted:#a8aec5;--purple:#9274ff;--line:#2a3150}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% 0,#202044 0,transparent 35%),var(--bg);color:var(--text);font-family:Cairo,Arial,sans-serif}
+.topbar{height:68px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#0d1020dd;position:sticky;top:0;z-index:5}.brand{color:white;text-decoration:none;font-size:19px;font-weight:700;display:flex;align-items:center;gap:10px}.brand b{color:#b6a4ff}.logo{background:linear-gradient(135deg,#9a7cff,#5e45d8);border-radius:12px;padding:3px 10px}.status{color:var(--muted);font-size:12px}.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4bd49b;margin-left:6px}
+.layout{display:grid;grid-template-columns:220px 1fr;max-width:1240px;margin:auto;min-height:calc(100vh - 110px)}.sidebar{padding:25px 14px;border-left:1px solid var(--line);background:#101426}.side-title{color:#7f88a7;font-size:12px;margin:0 12px 14px}.nav{width:100%;border:0;background:transparent;color:#bfc5da;text-align:right;padding:12px;border-radius:12px;font:600 14px Cairo;display:flex;gap:10px;align-items:center;margin:4px 0;cursor:pointer}.nav.active,.nav:hover{background:#292448;color:white}.side-note{font-size:11px;color:#737d9e;line-height:1.9;margin:40px 12px}.main{padding:36px clamp(16px,5vw,64px);max-width:1000px;width:100%;margin:auto}.view{display:none}.view.active{display:block}.welcome{text-align:center;padding:55px 10px 25px}.eyebrow{color:#a995ff;font-size:12px;font-weight:700;letter-spacing:.5px}.welcome h1,.page-head h1{font-size:clamp(25px,4vw,38px);margin:8px 0}.welcome p,.page-head p{color:var(--muted);margin:0 0 25px}.page-head{margin:12px 0 28px}.composer{display:flex;gap:10px;background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:18px;align-items:end}.composer textarea{flex:1;border:0;background:transparent;resize:vertical;min-height:48px;color:white;font:14px Cairo;outline:none}.primary,.secondary{border:0;border-radius:12px;padding:11px 19px;font:700 13px Cairo;cursor:pointer}.primary{background:linear-gradient(135deg,#9b7dff,#694ee0);color:white}.secondary{background:#292448;color:#dcd5ff;margin-top:12px}.primary:disabled{opacity:.5;cursor:not-allowed}.hint{color:#7f89a8;font-size:11px;line-height:1.8}.warning{color:#e8c77d;margin-top:20px}label{display:block;color:#cdd2e5;font-size:13px;font-weight:600;margin:17px 0}input,select,label textarea{display:block;width:100%;margin-top:8px;background:#151a2d;border:1px solid var(--line);border-radius:11px;padding:12px;color:white;font:13px Cairo;outline:none}textarea{resize:vertical}input:focus,select:focus,textarea:focus{border-color:#8c72f4}.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}.output{white-space:pre-wrap;line-height:2;background:#151a2d;border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:18px;min-height:20px;overflow-wrap:anywhere}.output:empty{display:none}.chat-log{display:flex;flex-direction:column;gap:12px;margin:10px 0}.bubble{max-width:90%;padding:12px 15px;border-radius:15px;white-space:pre-wrap;line-height:1.9;font-size:14px}.bubble.user{background:#30275b;align-self:flex-start}.bubble.ai{background:#171d31;border:1px solid var(--line);align-self:flex-end}.upload{border:1px dashed #6655a8;border-radius:14px;padding:18px}.upload input{border:0;padding:8px}.image-output img{max-width:100%;border-radius:14px;margin-top:18px}.hidden{display:none}footer{text-align:center;color:#66708e;font-size:11px;padding:15px;border-top:1px solid var(--line)}
+@media(max-width:700px){.layout{display:block}.sidebar{display:flex;overflow-x:auto;padding:8px;border-left:0;border-bottom:1px solid var(--line);position:sticky;top:68px;z-index:4}.side-title,.side-note{display:none}.nav{white-space:nowrap;width:auto;flex-shrink:0;padding:9px 12px;font-size:12px}.nav span{display:inline}.main{padding:22px 15px}.welcome{padding:35px 5px 20px}.two{grid-template-columns:1fr}.status{display:none}}
+
+</style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";</script>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#"><span class="logo">✦</span><span>AI <b>WORLD</b></span></a>
+  <span class="status"><i></i> مساعدك الذكي</span>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-title">الأدوات</div>
+    <button class="nav active" data-view="chat">💬 <span>المحادثة الذكية</span></button>
+    <button class="nav" data-view="writer">✍️ <span>الكتابة والترجمة</span></button>
+    <button class="nav" data-view="research">🩺 <span>أبحاث التمريض</span></button>
+    <button class="nav" data-view="quiz">📝 <span>أسئلة وتمارين</span></button>
+    <button class="nav" data-view="files">📄 <span>تحليل الملفات</span></button>
+    <button class="nav" data-view="images">🎨 <span>إنشاء الصور</span></button>
+    <div class="side-note">نسخة تجريبية<br>بدون حسابات مستخدمين</div>
+  </aside>
+  <main class="main">
+    <section class="view active" id="chat">
+      <div class="welcome"><div class="eyebrow">مرحباً بك في AI WORLD</div><h1>إيه اللي تحب نعمله النهارده؟</h1><p>اسأل، اكتب، لخّص، أو اتعلم بطريقة أسهل.</p></div>
+      <div id="chatLog" class="chat-log"></div>
+      <form id="chatForm" class="composer"><textarea id="chatInput" placeholder="اكتب سؤالك هنا..." rows="2"></textarea><button class="primary" type="submit">إرسال ↑</button></form>
+      <p class="hint">راجع المعلومات المهمة، خصوصاً المعلومات الطبية، مع مراجع موثوقة.</p>
+    </section>
+    <section class="view" id="writer">
+      <div class="page-head"><span class="eyebrow">AI WRITER</span><h1>الكتابة والترجمة</h1><p>اكتب موضوعاً أو اطلب ترجمة أو تلخيصاً.</p></div>
+      <label>نوع المهمة<select id="writerMode"><option>اكتب موضوعاً منظماً</option><option>ترجم النص إلى العربية</option><option>ترجم النص إلى الإنجليزية</option><option>لخّص النص</option><option>صحح اللغة والإملاء</option></select></label>
+      <label>النص أو المطلوب<textarea id="writerInput" rows="7" placeholder="اكتب النص أو المطلوب..."></textarea></label>
+      <button class="primary" id="writerGo">تنفيذ المهمة</button><div class="output" id="writerOutput"></div>
+      <button class="secondary hidden" id="writerPdf">تحميل النتيجة PDF</button>
+    </section>
+    <section class="view" id="research">
+      <div class="page-head"><span class="eyebrow">NURSING AI</span><h1>مساعد أبحاث التمريض 🩺</h1><p>جهّز مسودة بحث أكاديمي منظمة، ثم راجع المراجع قبل التسليم.</p></div>
+      <label>موضوع البحث<input id="researchTopic" placeholder="مثال: دور التمريض في الوقاية من قرح الفراش"></label>
+      <div class="two">
+        <label>لغة البحث<select id="researchLang"><option>الإنجليزية</option><option>العربية</option></select></label>
+        <label>حجم البحث<select id="researchSize"><option>مختصر</option><option selected>متوسط</option><option>مفصل</option></select></label>
+      </div>
+      <label>تعليمات إضافية<textarea id="researchNotes" rows="3" placeholder="مثلاً: لطلاب السنة الثانية، مع أهداف ومقدمة وخاتمة..."></textarea></label>
+      <button class="primary" id="researchGo">إنشاء مسودة البحث</button><div class="output" id="researchOutput"></div>
+      <button class="secondary hidden" id="researchPdf">تحميل البحث PDF</button>
+      <p class="hint warning">تنبيه أكاديمي: اطلب مراجع يمكن التحقق منها، ولا تعتمد أي مرجع أو معلومة قبل فتح المصدر الأصلي. الأداة لا تستبدل الإشراف الأكاديمي أو الإرشادات السريرية.</p>
+    </section>
+    <section class="view" id="quiz">
+      <div class="page-head"><span class="eyebrow">STUDY MODE</span><h1>أسئلة وتمارين</h1><p>أنشئ أسئلة اختيار من متعدد مع الإجابات والتفسير.</p></div>
+      <label>المادة أو الموضوع<input id="quizTopic" placeholder="مثال: أساسيات التمريض - العلامات الحيوية"></label>
+      <div class="two"><label>عدد الأسئلة<select id="quizCount"><option>5</option><option selected>10</option><option>15</option></select></label><label>المستوى<select id="quizLevel"><option>مبتدئ</option><option selected>متوسط</option><option>متقدم</option></select></label></div>
+      <button class="primary" id="quizGo">إنشاء الأسئلة</button><div class="output" id="quizOutput"></div>
+      <button class="secondary hidden" id="quizPdf">تحميل الأسئلة PDF</button>
+    </section>
+    <section class="view" id="files">
+      <div class="page-head"><span class="eyebrow">DOCUMENT AI</span><h1>تحليل الملفات</h1><p>ارفع ملف PDF نصّي واسأل عنه أو اطلب تلخيصه.</p></div>
+      <label class="upload">اختيار ملف PDF<input id="pdfFile" type="file" accept="application/pdf"></label>
+      <div id="fileStatus" class="hint">الملف يبقى في المتصفح ويُرسل نصه للخدمة عند طلب التحليل.</div>
+      <label>ماذا تريد أن تفعل؟<select id="fileTask"><option>لخّص الملف في نقاط</option><option>اشرح محتوى الملف ببساطة</option><option>استخرج أهم التعريفات والمصطلحات</option><option>أنشئ أسئلة MCQ من الملف</option></select></label>
+      <button class="primary" id="fileGo" disabled>تحليل الملف</button><div class="output" id="fileOutput"></div>
+      <button class="secondary hidden" id="filePdf">تحميل النتيجة PDF</button>
+    </section>
+    <section class="view" id="images">
+      <div class="page-head"><span class="eyebrow">AI IMAGE</span><h1>إنشاء الصور</h1><p>اكتب وصف الصورة التي تريد إنشاءها.</p></div>
+      <label>وصف الصورة<textarea id="imagePrompt" rows="4" placeholder="مثال: رسم تعليمي مبسط يوضح أجزاء القلب البشري..."></textarea></label>
+      <button class="primary" id="imageGo">إنشاء الصورة</button><div id="imageOutput" class="image-output"></div>
+      <p class="hint">إنشاء الصور قد يحتاج رصيداً أو خطة مدفوعة لدى مزود الخدمة.</p>
+    </section>
+  </main>
+</div>
+<footer>AI WORLD · أداة تعليمية تجريبية</footer>
+<script>
+// ضع مفتاح Gemini الجديد هنا بعد إلغاء المفتاح الذي ظهر في المحادثة.
+const GEMINI_API_KEY = "AQ.Ab8RN6LwghKYyx-mRGVXjs9rxj0znYWhVjRpneVQK0_6O_OL5g";
+const TEXT_MODELS = ["gemini-3.8-flash", "gemini-3.5-flash-lite"];
+const IMAGE_MODEL = "gemini-nano-banana-2.1";
+let lastOutput = "";
+let extractedPdfText = "";
+const $ = id => document.getElementById(id);
+function showOutput(id, text){ $(id).textContent = text; lastOutput=text; }
+function setBusy(btn,busy,label="جارٍ التنفيذ..."){
+  btn.disabled=busy;
+  if(busy){btn.dataset.old=btn.textContent;btn.textContent=label}
+  else{btn.textContent=btn.dataset.old||btn.textContent}
+}
+const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+async function callGeminiModel(model, prompt, imageMode=false){
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  const body={contents:[{role:"user",parts:[{text:prompt}]}]};
+  if(imageMode) body.generationConfig={responseModalities:["TEXT","IMAGE"]};
+  const res=await fetch(url,{method:"POST",headers:{"Content-Type":"application/json","x-goog-api-key":GEMINI_API_KEY},body:JSON.stringify(body)});
+  let data={}; try{data=await res.json()}catch{}
+  if(!res.ok){
+    const error=new Error(data.error?.message||`فشل الطلب (${res.status})`);
+    error.status=res.status;
+    throw error;
+  }
+  return data;
+}
+async function gemini(prompt, imageMode=false){
+  if(!GEMINI_API_KEY || GEMINI_API_KEY.includes("PASTE_")) throw new Error("ضع مفتاح Gemini الجديد في متغير GEMINI_API_KEY أعلى الملف.");
+  const models=imageMode?[IMAGE_MODEL]:TEXT_MODELS;
+  let lastError;
+  for(let i=0;i<models.length;i++){
+    const model=models[i];
+    // إعادة محاولة قصيرة عند الضغط المؤقت أو تجاوز معدل الطلبات.
+    for(let attempt=0;attempt<2;attempt++){
+      try{return await callGeminiModel(model,prompt,imageMode)}
+      catch(err){
+        lastError=err;
+        const temporary=[429,500,502,503,504].includes(err.status);
+        if(temporary && attempt===0){await sleep(1200);continue;}
+        if(temporary && i<models.length-1) break;
+        throw new Error(err.message+ (err.status===503 ? " — خوادم النموذج مزدحمة مؤقتاً؛ تمت تجربة إعادة المحاولة والنموذج البديل." : " — تحقق من المفتاح وصلاحيات Gemini API وحصة الاستخدام."));
+      }
+    }
+  }
+  throw new Error(lastError?.message||"تعذر الاتصال بخدمة Gemini.");
+}
+function extractText(data){return (data.candidates?.[0]?.content?.parts||[]).filter(p=>p.text).map(p=>p.text).join("\n").trim()||"لم يصل نص من Gemini."}
+function downloadPdf(text, filename="AI-WORLD.pdf"){
+  if(!window.jspdf) return alert("تعذر تحميل مكتبة PDF. تحقق من اتصال الإنترنت.");
+  const {jsPDF}=window.jspdf;const doc=new jsPDF();doc.setFont("helvetica");doc.setFontSize(11);
+  const lines=doc.splitTextToSize(text,180);let y=18;
+  lines.forEach(line=>{if(y>280){doc.addPage();y=18}doc.text(line,15,y);y+=7});
+  doc.save(filename);
+}
+document.querySelectorAll(".nav").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));
+  document.querySelectorAll(".view").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active");$(b.dataset.view).classList.add("active");
+}));
+$("chatForm").addEventListener("submit",async e=>{
+  e.preventDefault();const prompt=$("chatInput").value.trim();if(!prompt)return;
+  const log=$("chatLog");const u=document.createElement("div");u.className="bubble user";u.textContent=prompt;log.append(u);
+  $("chatInput").value="";const a=document.createElement("div");a.className="bubble ai";a.textContent="لحظة، بفكر...";log.append(a);
+  try{a.textContent=extractText(await gemini(prompt))}catch(err){a.textContent="خطأ: "+err.message}
+});
+async function runText(btn,promptFn,outId,pdfBtnId){
+  const prompt=promptFn();if(!prompt.trim())return alert("اكتب المطلوب أولاً");
+  setBusy(btn,true);try{const d=await gemini(prompt);showOutput(outId,extractText(d));$(pdfBtnId).classList.remove("hidden")}
+  catch(e){showOutput(outId,"خطأ: "+e.message)}finally{setBusy(btn,false)}
+}
+$("writerGo").onclick=()=>runText($("writerGo"),()=>`المهمة: ${$("writerMode").value}\nالنص/المطلوب:\n${$("writerInput").value}`,"writerOutput","writerPdf");
+$("researchGo").onclick=()=>runText($("researchGo"),()=>`اكتب مسودة بحث تمريضي عن: ${$("researchTopic").value}\nاللغة: ${$("researchLang").value}. الحجم: ${$("researchSize").value}.\nتعليمات: ${$("researchNotes").value}\nنظم البحث إلى عنوان، ملخص، مقدمة، أهداف، محاور، خاتمة، ومراجع مقترحة قابلة للتحقق. لا تختلق مراجع أو DOI. وضح أي معلومة تحتاج تحققاً من مصدر أصلي.`,"researchOutput","researchPdf");
+$("quizGo").onclick=()=>runText($("quizGo"),()=>`أنشئ ${$("quizCount").value} أسئلة اختيار من متعدد عن ${$("quizTopic").value} بمستوى ${$("quizLevel").value}. اكتب أربعة اختيارات، ثم الإجابة الصحيحة وسببها لكل سؤال.`,"quizOutput","quizPdf");
+$("writerPdf").onclick=()=>downloadPdf($("writerOutput").textContent,"writer-result.pdf");
+$("researchPdf").onclick=()=>downloadPdf($("researchOutput").textContent,"nursing-research.pdf");
+$("quizPdf").onclick=()=>downloadPdf($("quizOutput").textContent,"nursing-quiz.pdf");
+$("pdfFile").onchange=async e=>{
+  const f=e.target.files[0];if(!f)return;
+  if(f.size>12*1024*1024){$("fileStatus").textContent="الحد الأقصى للملف 12 ميجابايت.";return}
+  $("fileStatus").textContent="جارٍ قراءة الملف...";
+  try{const buf=await f.arrayBuffer();const pdf=await pdfjsLib.getDocument({data:buf}).promise;let text="";
+    for(let i=1;i<=pdf.numPages;i++){const p=await pdf.getPage(i);const c=await p.getTextContent();text+=c.items.map(x=>x.str).join(" ")+"\n"}
+    extractedPdfText=text.slice(0,45000);$("fileStatus").textContent=`تمت قراءة ${pdf.numPages} صفحة. ${extractedPdfText.length} حرف جاهز للتحليل.`;$("fileGo").disabled=!extractedPdfText;
+  }catch(err){$("fileStatus").textContent="تعذرت قراءة الملف. قد يكون ممسوحاً ضوئياً كصور."}
+};
+$("fileGo").onclick=()=>runText($("fileGo"),()=>`المهمة: ${$("fileTask").value}\nمحتوى الملف:\n${extractedPdfText}`,"fileOutput","filePdf");
+$("filePdf").onclick=()=>downloadPdf($("fileOutput").textContent,"file-analysis.pdf");
+$("imageGo").onclick=async()=>{
+  const p=$("imagePrompt").value.trim();if(!p)return alert("اكتب وصف الصورة");
+  setBusy($("imageGo"),true);$("imageOutput").textContent="جارٍ إنشاء الصورة...";
+  try{const d=await gemini("Generate an image based on this description: "+p,true);const parts=d.candidates?.[0]?.content?.parts||[];
+    const imagePart=parts.find(x=>x.inlineData?.data);
+    if(!imagePart) throw new Error(extractText(d)||"لم يرجع النموذج صورة. تحقق من دعم نموذج الصور لحسابك.");
+    $("imageOutput").innerHTML="";const img=document.createElement("img");img.src=`data:${imagePart.inlineData.mimeType||"image/png"};base64,${imagePart.inlineData.data}`;img.alt="الصورة الناتجة";$("imageOutput").append(img);
+  }catch(e){$("imageOutput").textContent="خطأ: "+e.message}finally{setBusy($("imageGo"),false)}
+};
+</script>
+</body></html>
